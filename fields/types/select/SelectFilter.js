@@ -57,7 +57,7 @@ class SelectFilter extends Component {
 			'updateFilter',
 		]);
 
-		this.state = { metaDown: false };
+		this.state = { metaDown: true };
 	}
 	componentDidMount () {
 		this.detectOS();
@@ -86,12 +86,14 @@ class SelectFilter extends Component {
 		this.setState({ osName });
 	}
 	handleKeyDown (e) {
-		if (vkey[e.keyCode] !== '<meta>') return;
+
+
+		if (vkey[e.keyCode] !== 17) return;
 
 		this.setState({ metaDown: true });
 	}
 	handleKeyUp (e) {
-		if (vkey[e.keyCode] !== '<meta>') return;
+		if (vkey[e.keyCode] !== 17) return;
 
 		this.setState({ metaDown: false });
 	}
@@ -109,7 +111,8 @@ class SelectFilter extends Component {
 		}
 	}
 	selectOption (option) {
-		const value = this.state.metaDown
+
+		const value = (this.state.metaDown)
 			? this.props.filter.value.concat(option.value)
 			: [option.value];
 
@@ -119,6 +122,8 @@ class SelectFilter extends Component {
 		const value = this.state.metaDown
 			? this.props.filter.value.filter(i => i !== option.value)
 			: [option.value];
+
+      
 
 		this.updateFilter({ value });
 	}
@@ -177,7 +182,7 @@ class SelectFilter extends Component {
 					<Button size="xs" onClick={this.toggleAllOptions} style={{ padding: 0, width: 50 }}>
 						{indeterminate ? 'All' : 'None'}
 					</Button>
-					<FormNote>Hold <kbd>{metaKeyLabel}</kbd> to select multiple options</FormNote>
+					<FormNote>can click multiple</FormNote>
 				</div>
 				{this.renderOptions()}
 			</div>
