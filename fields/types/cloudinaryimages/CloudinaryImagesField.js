@@ -78,6 +78,17 @@ module.exports = Field.create({
 	// HELPERS
 	// ==============================
 
+	triggerFileDownload() {
+		//var linkNodeList=document.getElementsByClassName("dlLink");
+
+		var links = document.querySelectorAll(".isActive");	
+		console.log(links.length);
+		for(var lk of links){
+			console.log(lk.href);
+			console.log(lk);
+			lk.click();
+		}
+	},
 	triggerFileBrowser () {
 		this.refs.fileInput.clickDomNode();
 	},
@@ -275,6 +286,12 @@ module.exports = Field.create({
 				<Button onClick={this.triggerFileBrowser} style={uploadButtonStyles} data-e2e-upload-button="true">
 					Upload Images
 				</Button>
+        <Button onClick={this.triggerFileDownload} style={uploadButtonStyles}>
+					Download Images
+				</Button>
+
+
+				
 				{this.hasFiles() && (
 					<Button variant="link" color="cancel" onClick={this.clearFiles}>
 						Clear selection

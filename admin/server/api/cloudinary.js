@@ -62,6 +62,7 @@ module.exports = {
 			if (result.error) {
 				res.json({ error: { message: result.error.message } });
 			} else {
+        console.log('in cloudinary result',result);
 				res.json({ item: result });
 			}
 		});

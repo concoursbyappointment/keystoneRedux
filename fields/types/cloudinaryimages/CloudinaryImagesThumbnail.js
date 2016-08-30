@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Button } from '../../../admin/client/App/elemental';
 import ImageThumbnail from '../../components/ImageThumbnail';
+import ImageDL from './ImageDL';
 
 function CloudinaryImagesThumbnail ({
 	isDeleted,
@@ -29,16 +30,15 @@ function CloudinaryImagesThumbnail ({
 	const input = (!isQueued && !isDeleted && value) ? (
 		<input type="hidden" name={inputName} value={JSON.stringify(value)} />
 	) : null;
-
 	// provide gutter for the images
 	const imageStyles = {
 		float: 'left',
 		marginBottom: 10,
 		marginRight: 10,
 	};
-
 	return (
 		<div style={imageStyles}>
+			<ImageDL imageUri={imageSourceLarge}/> 
 			<ImageThumbnail
 				component={imageSourceLarge ? 'a' : 'span'}
 				href={!!imageSourceLarge && imageSourceLarge}
@@ -52,7 +52,6 @@ function CloudinaryImagesThumbnail ({
 			{input}
 		</div>
 	);
-
 };
 
 CloudinaryImagesThumbnail.propTypes = {

@@ -3,6 +3,7 @@ var assign = require('object-assign');
 var listToArray = require('list-to-array');
 
 module.exports = function (req, res) {
+	console.log('in list get.js---------------------------->',req.originalUrl);
 	var where = {};
 	var fields = req.query.fields;
 	var includeCount = req.query.count !== 'false';
@@ -19,6 +20,9 @@ module.exports = function (req, res) {
 		}
 	}
 	var filters = req.query.filters;
+
+	console.log('filters',filters);
+
 	if (filters && typeof filters === 'string') {
 		try { filters = JSON.parse(req.query.filters); }
 		catch (e) { } // eslint-disable-line no-empty
@@ -26,10 +30,31 @@ module.exports = function (req, res) {
 	if (typeof filters === 'object') {
 		assign(where, req.list.addFiltersToQuery(filters));
 	}
+		var sq =(req.query.search) ? true: false;
+  console.log('sq:',sq);
+    
 	if (req.query.search) {
-		assign(where, req.list.addSearchToQuery(req.query.search));
+		assign(where, req.list.addSearchToQuery(req.query.search,req.query.sort));
 	}
+  console.log('where1',where);
+	//hack the sort param into the where query operator
+	if (typeof req.query.sort != 'undefined' && typeof req.query.search !='undefined') {	
+	var searchPathType=req.list.schema.paths[req.query.sort].instance;
+		console.log('sort path type',searchPathType);
+
+		var newSearch=req.query.sort;
+
+		for(var path in where) break;
+			var term=where[path];
+			where = {};
+
+			where[newSearch] = term;
+
+	}
+
+	console.log('final search where2',where);
 	var query = req.list.model.find(where);
+
 	if (req.query.populate) {
 		query.populate(req.query.populate);
 	}

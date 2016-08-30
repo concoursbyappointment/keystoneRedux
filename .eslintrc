@@ -16,5 +16,9 @@
     "it": true,
     "jQuery": true,
     "Keystone": true
+  },
+  { "compilerOptions": { 
+    "target": "ES6", "module": "commonjs" 
+    } 
   }
 }
