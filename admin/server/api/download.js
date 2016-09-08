@@ -16,6 +16,10 @@ module.exports = function (req, res) {
 	var baby = require('babyparse');
 	var keystone = req.keystone;
 
+  console.log('dl incoming filters=',req.query.q);
+  console.log('dl incoming search=',req.query.search);
+
+
 	var filters = req.list.processFilters(req.query.q);
 	var queryFilters = req.list.getSearchFilters(req.query.search, filters);
 	var relFields = [];
@@ -68,6 +72,8 @@ module.exports = function (req, res) {
 
 	};
 
+
+  console.log("qf=",queryFilters);
 	var query = req.list.model.find(queryFilters);
 	if (relFields) {
 		query.populate(relFields.join(' '));

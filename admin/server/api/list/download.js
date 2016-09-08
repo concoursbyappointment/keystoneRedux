@@ -9,6 +9,31 @@ module.exports = function (req, res) {
 	var baby = require('babyparse');
 	var keystone = req.keystone;
 
+   // console.log('req.list=',req.list.fields);
+   	//add all non-cloudinary fields by default
+ 	var selectSet=new Set();
+	req.query.select.split(",").forEach(function(i){
+		selectSet.add(i);
+	});
+
+ 	for (var key in req.list.fields){
+		 console.log('key',key);
+		 //console.log('val',Object.keys(req.list.fields[key]));
+		 console.log('type',req.list.fields[key].type);
+		 (req.list.fields[key].type!="cloudinaryimages") ? selectSet.add(key) : null;
+	 }
+
+	 var newSelect=[];
+	 selectSet.forEach(function(i){
+		 	newSelect.push(i);
+	 });
+
+	 req.query.select=newSelect.join(',');
+
+  console.log('req.query.select=',req.query.select);
+
+	 console.log('expand?',req.query.expandRelationshipFields);
+
 	var format = req.params.format.split('.')[1]; // json or csv
 	var where = {};
 	var filters = req.query.filters;
@@ -22,6 +47,10 @@ module.exports = function (req, res) {
 	if (req.query.search) {
 		assign(where, req.list.addSearchToQuery(req.query.search));
 	}
+
+
+  console.log('final where in dl',where);
+
 	var query = req.list.model.find(where);
 	if (req.query.populate) {
 		query.populate(req.query.populate);
