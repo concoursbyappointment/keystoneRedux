@@ -124,6 +124,8 @@ const classes = {
 	},
 	dialog: {
 		backgroundColor: 'white',
+        height: '80%',
+        overflowY: 'scroll',
 		borderRadius: theme.borderRadius.default,
 		paddingBottom: theme.modal.padding.dialog.vertical,
 		paddingLeft: theme.modal.padding.dialog.horizontal,

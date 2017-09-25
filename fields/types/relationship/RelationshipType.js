@@ -222,9 +222,21 @@ relationship.prototype.updateItem = function (item, data, callback) {
 	}
 
 	var value = this.getValueFromData(data);
-	if (value === undefined) {
+
+    //i want these to clear because the stupid admin UI passes in an undefined when you remove all  relationships - so clear on undefined
+
+	if (value === undefined && this.many) {
+		item.set(this.path, []);
 		return process.nextTick(callback);
 	}
+
+    if (value === undefined && !this.many) {
+		item.set(this.path, null);
+		return process.nextTick(callback);
+	}
+
+
+
 
 	// Are we handling a many relationship or just one value?
 	if (this.many) {
